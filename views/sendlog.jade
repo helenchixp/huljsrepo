@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  h2 #{title}
+  
+  div
+    table.table.table-hover
+      thead
+        tr
+          th(scope='col') #
+          th(scope='col') ファイルID
+          th(scope='col') ホスト名 
+          th(scope='col') 開始日付
+          th(scope='col') 開始時刻
+          th(scope='col') 終了日付
+          th(scope='col') 終了時刻
+          th(scope='col') ファイル名
+          th(scope='col') 完了コード
+          th(scope='col') レコード件数
+          th(scope='col') 接続
+          th(scope='col') 暗号化種別
+      tbody 
+        each log, i in logs
+          tr(class=(log.returncode == '0') ? 'bg-danger' : '')               
+            th(scope='row')= (i+1) 
+            td= log.id
+            td= log.hostname
+            td= log.startday
+            td= log.starttime
+            td= log.endday
+            td= log.endtime
+            td= log.filename_utf8
+            td #{log.returncode}-#{log.refercode}
+            td= log.records
+            td= log.junction_type
+            td AES
+    nav(aria-label='Page navigation')
+      ul.pagination
+        li: a(href='#' aria-label='Previous')
+          span(aria-hidden='true') &laquo;
+        li: a(href='#') 1
+        li: a(href='#') 2
+        li: a(href='#') 3
+        li: a(href='#') 4
+        li: a(href='#' aria-label='Next')
+          span(aria-hidden='true') &raquo;
+    

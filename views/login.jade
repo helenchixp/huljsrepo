@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  //h2 #{title}
+  h2 #{message}
+  form.form-horizontal(method="post", action="/list")
+    .form-group
+      label.control-label.col-sm-2(for='username') ユーザー名
+      .col-sm-10
+        input.form-control(type="text" id="username" placeholder="ログイン ユーザ名" required )
+    .form-group
+      label.control-label.col-sm-2(for='password') パスワード 
+      .col-sm-10
+        input.form-control(type="password" placeholder="パスワード" required)
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        //.checkbox
+        input(type='checkbox' id='rememberme' checked)
+        label(for='rememberme')  ログイン状態を保持する
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        input.btn.btn-default(type='button' value='キャンセル')
+        input.btn.btn-primary(type='submit' value='ログイン')
+

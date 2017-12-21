@@ -1,0 +1,6 @@
+{
+  "directory": "public/bower_components",
+  "json": "bower.json",
+  "proxy": "http://Xiaohui_Chi:xopmvgt4@192.168.236.23:8080",
+  "https-proxy": "http://Xiaohui_Chi:xopmvgt4@192.168.236.23:8080"
+}

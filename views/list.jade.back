@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h2 #{title}
+  //h3 #{message}
+  table.table
+    thead
+     tr
+      th(scope='col') #
+      th(scope='col') Agent Name
+      th(scope='col') Status
+    tbody
+      tr
+       th(scope='row')1
+       td Agent001
+       td 切断中   

@@ -1,0 +1,15 @@
+.modal.fade(id='myModal' role='dialog' aria-labelledby='myModalLabel')
+  .modal-dialog(role='document')
+    form(method='post', action='/utlsend')
+      .modal-content
+        .modal-header
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4.modal-title(id='myModalLabel') 要求発行
+        .modal-body
+          .form-group
+            label.control-label(for='fileid') ファイルID
+            input.form-control(type='text' id='fileid' placeholder='ファイルIDを入力ください' required)
+        .modal-footer
+          button.btn.btn-default(type='button' data-dismiss='modal') 閉じる
+          button.btn.btn-primary(type='submit') 要求発行

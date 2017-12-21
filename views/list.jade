@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h2 #{title}
+  //h3 #{message}
+  table.table.table-hover
+    caption #{message}
+    thead
+     tr
+      th(scope='col') #
+      th(scope='col') Agent Name
+      th(scope='col') Status
+    tbody
+      tr
+       th(scope='row') 1
+       td Agent001
+       td 切断中  
+      tr.bg-warning       
+       th(scope='row') 2
+       td Agent002
+       td 未知  
+      tr.bg-danger
+       th(scope='row') 3
+       td Agent003
+       td 未インストール  
+      tr.bg-info
+       th(scope='row') 4
+       td Agent004
+       td 正常終了  
+       
