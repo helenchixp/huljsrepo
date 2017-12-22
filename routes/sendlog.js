@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
   var sql = 'select id, hostname, startday, starttime, endday, endtime, ' +
             'returncode, refercode, filename_utf8, records, junction_type ' + 
             'from sendlog ' +
-            'order by endday, endtime desc'
+            'order by endday desc, endtime desc'
             ';';
   
   /*

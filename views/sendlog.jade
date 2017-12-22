@@ -21,7 +21,7 @@ block content
           th(scope='col') 暗号化種別
       tbody 
         each log, i in logs
-          tr(class=(log.returncode == '0') ? 'bg-danger' : '')               
+          tr(class=(log.returncode == '0') ? '' : 'bg-danger')               
             th(scope='row')= (i+1) 
             td= log.id
             td= log.hostname
@@ -38,10 +38,9 @@ block content
       ul.pagination
         li: a(href='#' aria-label='Previous')
           span(aria-hidden='true') &laquo;
-        li: a(href='#') 1
-        li: a(href='#') 2
-        li: a(href='#') 3
-        li: a(href='#') 4
+        - for(var i=1; i<=5; i++) {
+          li: a(href='#')=  i
+        - }
         li: a(href='#' aria-label='Next')
           span(aria-hidden='true') &raquo;
     

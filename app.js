@@ -17,7 +17,8 @@ var routes = {
   login : require('./routes/login'),
   list : require('./routes/list'),
   sendlog: require('./routes/sendlog'),
-  about : require('./routes/about')
+  about : require('./routes/about'),
+  utlsend : require('./routes/utlsend')
 };
 
 var app = express();
@@ -41,8 +42,7 @@ app.use('/login', routes.login);
 app.use('/list',routes.list);
 app.use('/about',routes.about);
 app.use('/sendlog',routes.sendlog);
-app.post('/upload', routes.upload);
-
+app.use('/utlsend', routes.utlsend);
 
 /*
 app.post('/upload', function(req,res) {

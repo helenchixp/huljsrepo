@@ -1,5 +1,6 @@
-TARGET=/home/guest01/hulft/hulft840
+#!/bin/sh
 
+TARGET=/home/guest01/hulft/hulft840
 HULPATH=$TARGET/etc
 export HULPATH
 HULEXEP=$TARGET/bin
