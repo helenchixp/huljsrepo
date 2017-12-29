@@ -26,11 +26,11 @@ html
                 li: a(href='/sendlog') 要求状況
                 li: a(href='/sendlog') 転送状況
             li
-              //button.btn.btn-primary.btn-lg(type='button' data-toggle='modal' data-target='#myModal') 要求発行
               a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 要求発行 
                 span.caret
               ul.dropdown-menu
-                li:a(href='#myModal' data-toggle='modal' data-target='#myModal') 要求発行
+                li: a(href='#myModal' data-toggle='modal' data-target='#myModal') 要求発行
+                li: a(href='/upload') アップロード 
             li
               a(href='/login') Login
     include modal.jade

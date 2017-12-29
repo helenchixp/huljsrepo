@@ -3,6 +3,9 @@ extends layout
 block content
   h1 Upload
   p Welcome to #{title}
-  form(method="post", enctype="multipart/form-data", action="/upload")
+  //form(method="post", enctype="multipart/form-data", action="/upload")
+    //input(type="file", name="thumbnail")
+  form(method="post", enctype='multipart/form-data', action="/upload")
     input(type="file", name="thumbnail")
+    //input(type="text", name="filename" value="aaa")
     input(type="submit")

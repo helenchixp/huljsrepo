@@ -4,12 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//var multer = require('multer'); 
 
-/*
-var index = require('./routes/index');
-var users = require('./routes/users');
-var upload = require('./routes/upload');
-*/
 
 var routes = {
   index : require('./routes/index'),
@@ -29,10 +25,39 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger({ format : 'short', immediate: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// output logger to log.txt
+if(app.get('env')=='production') {
+  var fs = require('fs');
+  var stream = fs.createWriteStream(__dirname + '/trace.log', { flags: 'a' });
+  app.use(logger({ stream: stream }));
+}
+else {
+  console.log('  ---- Deploy mode is off [export NODE_ENV=production] will be on ');
+}
+
+
+
+//app.use(multer({ dest: './uploads/'}));
+
+/*
+    rename: function(fieldname, filename) {
+      return  filename+Date.now();
+    },
+    onFileUploadStart: function(file) {
+      console.log(file.originalname + ' is starting ...');
+    },
+    onFileUploadComplete: function(file) {
+      console.log(file.fieldname + ' uploaded to  ' + file.path);
+    }
+}));
+*/
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
@@ -44,17 +69,6 @@ app.use('/about',routes.about);
 app.use('/sendlog',routes.sendlog);
 app.use('/utlsend', routes.utlsend);
 
-/*
-app.post('/upload', function(req,res) {
-  res.send('POST Upload');
-});
-*/
-
-/*
-app.use('/', index);
-app.use('/users', users);
-app.use('/upload', upload);
-*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
