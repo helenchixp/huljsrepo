@@ -4,28 +4,33 @@ block content
   h2 #{title}
   
   div
-    table.table.table-hover
+    table.table.table-striped
       thead
         tr
           th(scope='col') #
           th(scope='col') ファイルID
           th(scope='col') ホスト名 
           th(scope='col') 開始日付
-          th(scope='col') 開始時刻
+          th(scope='col', white-space='nowrap') 開始時刻
           th(scope='col') 終了日付
-          th(scope='col') 終了時刻
+          th(style="color:#333333; white-space:'nowrap';") 終了時刻
           th(scope='col') ファイル名
           th(scope='col') 完了コード
           th(scope='col') レコード件数
           th(scope='col') 接続
       tbody 
         each log, i in logs
-          tr(class=(log.returncode == '0') ? '' : 'bg-danger')               
+          tr               
             th(scope='row')= (i+1) 
-            td= log.id
+            td
+              if log.returncode=='0' 
+                span.label.label-success Success!
+              else
+                span.label.label-danger Error!
+              span &nbsp;#{log.id}
             td= log.hostname
-            td= log.startday
-            td= log.starttime
+            td #{log.startday.substr(0,4)}/#{log.startday.substr(4,2)+'/'+log.startday.substr(6,2)}
+            td #{log.starttime.substr(0,2)+':'+log.starttime.substr(2,2)+':'+log.starttime.substr(4,2)}
             td= log.endday
             td= log.endtime
             td= log.filename_utf8

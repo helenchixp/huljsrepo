@@ -1,0 +1,18 @@
+.modal.fade(id='installerModal' role='dialog' aria-labelledby='myModalLabel')
+  .modal-dialog(role='document')
+    form(method='post', action='/installer')
+      .modal-content
+        .modal-header
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+          h3.modal-title#myModalLabel HULFTインストーラ
+        .modal-body        
+          h4 
+            strong お知らせ
+           .alert.alert-warning(role='alert')
+             strong Warning!
+             p HULFTのインストールが完了していません。 
+        .modal-footer
+          button.btn.btn-default(type='button' data-dismiss='modal') 閉じる
+          button.btn.btn-primary(type='submit') HULFTインストール
+ 

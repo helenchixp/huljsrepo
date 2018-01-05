@@ -13,6 +13,7 @@ var routes = {
   login : require('./routes/login'),
   list : require('./routes/list'),
   sendlog: require('./routes/sendlog'),
+  recvlog: require('./routes/recvlog'),
   about : require('./routes/about'),
   utlsend : require('./routes/utlsend')
 };
@@ -25,7 +26,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger({ format : 'short', immediate: true}));
+app.use(logger({ format : 'dev', immediate: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -67,6 +68,7 @@ app.use('/login', routes.login);
 app.use('/list',routes.list);
 app.use('/about',routes.about);
 app.use('/sendlog',routes.sendlog);
+app.use('/recvlog',routes.recvlog);
 app.use('/utlsend', routes.utlsend);
 
 // catch 404 and forward to error handler

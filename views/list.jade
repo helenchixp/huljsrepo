@@ -2,29 +2,85 @@ extends layout
 
 block content
   h2 #{title}
-  //h3 #{message}
   table.table.table-hover
     caption #{message}
     thead
      tr
       th(scope='col') #
-      th(scope='col') Agent Name
-      th(scope='col') Status
+      th(scope='col') Agent ID
+      th(scope='col') ホスト名
+      th(scope='col') 稼働状態
+      th(scope='col') 操作ログ
+      th(scope='col') 配信状況
+      th(scope='col') 配信履歴
+      th(scope='col') コメント
     tbody
       tr
        th(scope='row') 1
        td Agent001
-       td 切断中  
+       td ホスト1
+       td 
+         button.btn.btn-xs.btn-warning(data-toggle='modal', data-target='#installerModal') N/A  
+       td 
+         button.btn.btn-default.btn-xs(aria-label='Left Align')
+           span.glyphicon.glyphicon-list-alt(aria-hidden='true')  ログ 
+       td 
+         button.btn.btn-default.btn-xs(aria-label='Left Align')
+           span.glyphicon.glyphicon-tasks(aria-hidden='true')  状態 
+       td
+         button.btn.btn-default.btn-xs(aria-label='Left Align')
+           span.glyphicon.glyphicon-transfer(aria-hidden='true')
+           a(href='./sendlog/agent01') 履歴 
+       td 
       tr.bg-warning       
        th(scope='row') 2
        td Agent002
-       td 未知  
+       td ホスト2
+       td   
+         button.btn.btn-xs.btn-default(data-toggle='modal', data-target='#installerModal') 未知  
+       td 
+         button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+           span.glyphicon.glyphicon-list-alt(aria-hidden='true')  ログ 
+       td 
+         button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+           span.glyphicon.glyphicon-tasks(aria-hidden='true')  状態 
+       td 
+         button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+           span.glyphicon.glyphicon-transfer(aria-hidden='true')
+           a(href='./sendlog') 履歴 
+       td 
       tr.bg-danger
        th(scope='row') 3
        td Agent003
-       td 未インストール  
+       td ホスト3   
+       td 
+         button.btn.btn-xs.btn-danger(data-toggle='modal', data-target='#installerModal') 未インストール  
+       td
+         button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+           span.glyphicon.glyphicon-list-alt(aria-hidden='true')  ログ 
+       td 
+         button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+           span.glyphicon.glyphicon-tasks(aria-hidden='true')  状態 
+       td
+         button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+           span.glyphicon.glyphicon-transfer(aria-hidden='true')
+           a(href='./sendlog') 履歴 
+       td 
       tr.bg-info
        th(scope='row') 4
        td Agent004
-       td 正常終了  
-       
+       td Agent004
+       td 
+         button.btn.btn-xs.btn-success(data-toggle='modal', data-target='#installerModal') 正常終了   
+       td 
+         button.btn.btn-default.btn-xs(aria-label='Left Align')
+           span.glyphicon.glyphicon-list-alt(aria-hidden='true')  ログ 
+       td 
+         button.btn.btn-default.btn-xs(aria-label='Left Align')
+           span.glyphicon.glyphicon-tasks(aria-hidden='true')  状態 
+       td
+         button.btn.btn-default.btn-xs(aria-label='Left Align')
+           span.glyphicon.glyphicon-transfer(aria-hidden='true')
+           a(href='./sendlog#agent04') 履歴 
+       td 
+  include installdialog.jade 
