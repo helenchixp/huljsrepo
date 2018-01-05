@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  h2 #{title}
+  
+  div
+    table.table.table-striped
+      thead
+        tr
+          th(scope='col') #
+          th(scope='col') OSユーザ 
+          th(scope='col') 処理日付
+          th(scope='col') 処理時刻
+          th(scope='col') 開始日付
+          th(scope='col') 開始時刻
+          th(scope='col') ホスト名
+          th(scope='col') コマンドキー
+          th(scope='col') コマンド名
+          th(scope='col') コマンドパラメータ
+      tbody 
+        each log, i in logs
+          tr               
+            th(scope='row')= (i+1) 
+            td= log.uid_os
+            td= log.prcday
+            td= log.prctime
+            td= log.startday
+            td= log.starttime
+            td= log.start_host
+            td= log.cmd_key
+            td= log.cmd_source
+            td= log.cmd_param
+    nav(aria-label='Page navigation')
+      ul.pagination
+        li: a(href='#' aria-label='Previous')
+          span(aria-hidden='true') &laquo;
+        - for(var i=1; i<=5; i++) {
+          li: a(href='#')=  i
+        - }
+        li: a(href='#' aria-label='Next')
+          span(aria-hidden='true') &raquo;
+    

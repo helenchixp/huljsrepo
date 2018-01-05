@@ -14,6 +14,7 @@ var routes = {
   list : require('./routes/list'),
   sendlog: require('./routes/sendlog'),
   recvlog: require('./routes/recvlog'),
+  opllog: require('./routes/opllog'),
   about : require('./routes/about'),
   utlsend : require('./routes/utlsend')
 };
@@ -42,23 +43,6 @@ else {
 }
 
 
-
-//app.use(multer({ dest: './uploads/'}));
-
-/*
-    rename: function(fieldname, filename) {
-      return  filename+Date.now();
-    },
-    onFileUploadStart: function(file) {
-      console.log(file.originalname + ' is starting ...');
-    },
-    onFileUploadComplete: function(file) {
-      console.log(file.fieldname + ' uploaded to  ' + file.path);
-    }
-}));
-*/
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
@@ -69,6 +53,7 @@ app.use('/list',routes.list);
 app.use('/about',routes.about);
 app.use('/sendlog',routes.sendlog);
 app.use('/recvlog',routes.recvlog);
+app.use('/opllog',routes.opllog);
 app.use('/utlsend', routes.utlsend);
 
 // catch 404 and forward to error handler

@@ -2,19 +2,21 @@ var express = require('express');
 var router = express.Router();
 var dbquery = require('./dbquery.js');
 var sendlog= dbquery('hulsndlog.db');
-
-var sqlite3 = require('sqlite3').verbose();
+//var sqlite3 = require('sqlite3').verbose();
+const URL = 'sendlog';
 
 /* GET logs data. */
 var showlogs = function(req, res) {
   var sql = 'select id, hostname, startday, starttime, endday, endtime, ' +
             'returncode, refercode, filename_utf8, records, junction_type ' + 
-            'from sendlog ' +            'order by endday desc, endtime desc'
+            'from sendlog ' +
+            'order by endday desc, endtime desc'
             ';';
   var result = sendlog.query(sql, function(rows) {
-    res.render('recvlog', { 
+    res.render(URL, { 
                     title : '配信履歴', 
                     agentid : req.params.agentid,
+                    searchurl : URL,
                     logs : rows
                });
   });
@@ -25,9 +27,13 @@ router.get('/', function(req, res, next) {
    showlogs(req, res);
 });
 router.get('/:agentid', function(req, res, next) {
-   console.log('_________' + req.params.agentid);
    showlogs(req, res);
 });
+router.post('/', function(req, res, next) {
+  console.log(' ..... ' + req.body.searchid);
+  showlogs(req,res);
+});
+
 /*
  * It is Old function
 router.get('/', function(req, res, next) {
