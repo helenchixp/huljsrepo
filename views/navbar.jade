@@ -1,0 +1,23 @@
+nav.navbar.navbar-default
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle.collapsed(type='button',data-toggle='collapse',data-target='#bs-navbar-1',aria-expanded='false')
+        span.sr-only Toggle Navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='/list') Home &gt;
+      a.navbar-brand #{agentid} &gt;
+      a.navbar-brand #{title}
+    .collapse.navbar-collapse#bs-navbar-1
+      - var isshow = 'visible';
+      - if (searchurl == null) isshow = 'hidden';
+      form.navbar-form.navbar-right(role='search', method='post', action='/#{searchurl}' style='visibility:#{isshow};')
+        .form-group
+          .btn-group
+            .btn-group
+              .input-group
+                span.input-group-addon ID
+                input#searchID.form-control(type='text', name='searchid', placeholder='Search by ID ...')
+            button.btn.btn-default(type='submit')
+              span.glyphicon.glyphicon-search

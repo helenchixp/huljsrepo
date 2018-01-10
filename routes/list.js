@@ -15,7 +15,8 @@ router.post('/', function(req, res) {
   res.render(URL, { 
                 title: 'エージェント一覧', 
                 //message: '件数：100件',
-                searchurl: URL
+                searchurl: URL,
+                loginuser: req.body.username
             });
 });
 
