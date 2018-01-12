@@ -12,8 +12,8 @@ var showlogs = function(req, res) {
             'from sendlog ' +
             'order by endday desc, endtime desc'
             ';';
-  var result = sendlog.query(sql, function(rows) {
-    res.render(URL, { 
+  var result = sendlog.query(sql, [], function(rows) {
+  res.render(URL, { 
                     title : '配信履歴', 
                     agentid : req.params.agentid,
                     searchurl : URL,

@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
             'returncode, refercode, filename_utf8, records, junction_type ' +
             'from recvlog ' +
             'order by endday desc, endtime desc;'
-  var result = recvlog.query(sql, function(rows) {
+  var result = recvlog.query(sql,[], function(rows) {
     
     res.render(URL, { 
                  title : '集信履歴', 

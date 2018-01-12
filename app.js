@@ -15,7 +15,9 @@ var routes = {
   recvlog: require('./routes/recvlog'),
   opllog: require('./routes/opllog'),
   about : require('./routes/about'),
-  utlsend : require('./routes/utlsend')
+  utlsend : require('./routes/utlsend'),
+  // Test Page
+  users : require('./routes/users')
 };
 
 var app = express();
@@ -54,6 +56,9 @@ app.use('/sendlog',routes.sendlog);
 app.use('/recvlog',routes.recvlog);
 app.use('/opllog',routes.opllog);
 app.use('/utlsend', routes.utlsend);
+
+//Test Page
+app.use('/users',routes.users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

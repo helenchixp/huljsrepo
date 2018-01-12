@@ -18,10 +18,10 @@ var dbquery = function(dbname) {
 
 
   return {
-    query: function(sql, callback) {
-      var result = null;
+    query: function(sql, params , callback) {
+      //var result = null;
       var db = dbconn();
-      db.all(sql, [], function(err, rows) {
+      db.all(sql, params, function(err, rows) {
         if(err) throw err;
         console.log(' SQL:[' + sql + ']' );
         callback(rows);
@@ -30,8 +30,46 @@ var dbquery = function(dbname) {
         if(err) throw err;
       });
 
-      return result;
+      //return result;
+    },
+    first: function(sql, params, callback) {
+      var db = dbconn();
+      db.get(sql, params, function(err, row) {
+        if(err) throw err;
+        console.log(' SQL(first):[ '+ sql + ' ]');
+        //return row;
+        callback(row);
+      });
+      db.close(function(err) {
+        console.log('... first method close');
+        if(err) throw err;
+      });
     }
+    // todo: it is will be transcation. 
+    /* 
+    firstAsync : function(sql, params) { 
+      return new Promise(function(resolve, reject) {
+        var db = dbconn();
+
+        db.serialize(function() {
+          db.get(sql, params, function(err, row) {
+            if(err) reject(err);
+            resolve(row);  
+          });
+        });
+        db.close(function(err) {
+          console.log(' .... first Async is over.');
+        });
+
+      });
+    } */
+    /*
+    firstAsync : function(sql, params, callback) {
+      return new Promise(function (resolve, reject) {
+          return resolve('test!!!');
+      });
+    }
+  */
   };
 };
 
