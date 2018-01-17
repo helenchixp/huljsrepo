@@ -41,11 +41,22 @@ html
                 li: a(href='#myModal' data-toggle='modal' data-target='#myModal') 要求発行
                 li: a(href='/upload') アップロード 
             li
-              a(href='/login') Login
+              a(href='/login') Login         
+          if env.loginUser
+            ul.nav.navbar-nav.navbar-right
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') 
+                  span.glyphicon.glyphicon-user(aria-hidden='true') 
+                  span.glyphicon-class #{env.loginUser}
+                  span.caret
+                ul.dropdown-menu 
+                  li: a(href='#')  #{env.loginUser} 
+                  li: a(href='logout') Logout
     include modal.jade
     include navbar.jade
     .container-fluid.body-content
-      .row.content 
+      .row.content
+        //- todo: 
         if loginuser!=null
           .col-sm-2.sidenav
             include navsideleft.jade
@@ -57,11 +68,18 @@ html
 
   script(src='/bootstrap/dist/js/bootstrap.js')
   script.
-    $(document).ready(function() {
+    $(document).ready(function() {  /*
+      $("#searchID").off("keyup", function(e){
+        var value = $(this).val();
+        if( value.match(/[^A-Z0-9\s.-]+/)) {
+           alert(e.key);
+        }
+      });*/
       $("#searchID").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
+        var value = $(this).val().toUpperCase();
         $("#bodyList tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          $(this).toggle($(this).text().toUpperCase().indexOf(value) > -1)
         }); 
+        
       }); 
     });

@@ -1,17 +1,24 @@
 extends layout
 
 block content
-  //h2 #{title}
-  h2 #{message}
-  form.form-horizontal(method="post", action="/list")
+  h2 #{title}
+  //h2 #{message}
+  if message == null
+    .alert.alert-danger(role='alert', hidden) 
+  else
+    .alert.alert-danger.alert-dismissible(role='alert') 
+      button.close(type='button', data-dismiss='alert', aria-label='Close')
+        span(aria-hidden='true') &times;
+      <strong>Waring!</strong>  #{message} #{isalert} 
+  form.form-horizontal(method="post", action="/login")
     .form-group
       label.control-label.col-sm-2(for='username') ユーザー名
       .col-sm-10
-        input.form-control(type="text" name="username" placeholder="ログイン ユーザ名" required )
+        input.form-control(type="text",name="username",placeholder="ログイン ユーザ名" required )
     .form-group
       label.control-label.col-sm-2(for='password') パスワード 
       .col-sm-10
-        input.form-control(type="password" placeholder="パスワード" required)
+        input.form-control(type="password", name='password', placeholder="パスワード",required)
     .form-group
       .col-sm-offset-2.col-sm-10
         //.checkbox
@@ -20,6 +27,6 @@ block content
     .form-group
       .col-sm-offset-2.col-sm-10
         input.btn.btn-default(type='button' value='キャンセル')
-        &nbsp;
+        span &nbsp;
         input.btn.btn-primary(type='submit' value='ログイン')
 

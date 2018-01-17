@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var objectID = require('mongodb').ObjectID;
+//var objectID = require('mongodb').ObjectID;
 var collection = require('./mongo');
+var utility = require('./utility');
 const URL = 'list'
 
 /*
@@ -14,22 +15,15 @@ router.all('/*', function(req, res, next) {
 */
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-
+router.get('/',utility.loginCheck, function(req, res, next) {
   collection('agent').find({}, function(docs) {
-   // res.send(docs);
      res.render(URL, {
-                title: '未ログイン・エージェント一覧',
+                title: 'エージェント一覧',
                 searchurl: URL,
+                env: global.env,
                 agents: docs
             });
   });
-  /*
-  res.render(URL, {
-                title: '未ログイン・エージェント一覧',
-                searchurl: URL
-            });
-  */
 });
 
 router.post('/', function(req, res) {
@@ -37,10 +31,9 @@ router.post('/', function(req, res) {
    collection('agent').find({}, function(docs) {   
       res.render(URL, { 
                 title: 'エージェント一覧', 
-                //message: '件数：100件',
                 searchurl: URL,
-                agents: docs,
-                loginuser: req.body.username
+                env: global.env,                
+                agents: docs
             });
   });
 });

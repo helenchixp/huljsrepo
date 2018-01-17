@@ -19,10 +19,7 @@ var mongoconn = function(colname, params, next) {
      assert.equal(null, err);
      console.log("Connected correctly to server" + typeof(db));
      var colls = db.db(dbName).collection(colname); 
-     console.log('    '+colls);
      next(db);
-       
-     
   });
 };
 
@@ -34,8 +31,8 @@ var collection = function(name) {
   return {
      find: function(params, callback) {
         mongoconn(colname, params, function(db) {
-             db.collection(name).find({}).toArray(function(err, result) { 
-                console.log('  .......  '+name + '  '  + result );
+             db.collection(name).find(params).toArray(function(err, result) { 
+                console.log('  .......  colname : '+name + '  docs count:'  + result.length );
                 callback(result);
                 db.close();
              } );
