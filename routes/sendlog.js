@@ -16,6 +16,7 @@ var showlogs = function(req, res) {
   res.render(URL, { 
                     title : '配信履歴', 
                     agentid : req.params.agentid,
+                    loginuser : req.session.user,  
                     searchurl : URL,
                     logs : rows
                });

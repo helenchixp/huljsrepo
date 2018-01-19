@@ -1,5 +1,46 @@
 extends layout
 
+mixin outputrow(agent, i)
+  th(scope='row')= i+1 
+  if agent.status=='Busy' || agent.status=='Normal'
+    td: input.chkhost(type='checkbox',name='checkhost[]',value='#{agent.name}',disabled)
+  else
+    td: input.chkhost(type='checkbox',name='checkhost[]',value='#{agent.name}')
+  td= agent.name
+  td= agent.hostname
+  td
+    if agent.status=='Busy'
+      button.btn.btn-xs.btn-warning(data-toggle='modal', data-target='#installerModal') ビジー
+    else if agent.status == 'None'
+      button.btn.btn-xs.btn-danger(data-toggle='modal', data-target='#installerModal', data-whatever='Agent003') 未インストール
+    else if agent.status == 'Normal'
+      button.btn.btn-xs.btn-success(data-toggle='modal', data-target='#installerModal') 稼働中
+    else
+      button.btn.btn-xs.btn-default(data-toggle='modal', data-target='#installerModal', data-whatever='Agent002') 未知
+  td
+    if agent.status=='Busy' || agent.status=='Normal'
+      button.btn.btn-default.btn-xs(aria-label='Left Align')
+        span.glyphicon.glyphicon-list-alt(aria-hidden='true')
+        a(href='/opllog/agent01')  ログ
+    else
+      button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+        span.glyphicon.glyphicon-list-alt(aria-hidden='true') ログ
+  td
+    if agent.status=='Busy' || agent.status=='Normal'
+      button.btn.btn-default.btn-xs(aria-label='Left Align')
+        span.glyphicon.glyphicon-tasks(aria-hidden='true')
+        span  状態
+        if agent.notifysum > 0
+          span.badge= agent.notifysum
+    else
+      button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
+        span.glyphicon.glyphicon-tasks(aria-hidden='true') 
+        span  状態
+  td
+    button.btn.btn-default.btn-xs(aria-label='Left Align')
+      span.glyphicon.glyphicon-transfer(aria-hidden='true')
+      a(href='/sendlog/agent01')  履歴 
+  td &nbsp;
 block content
   h2 #{title}
   table.table.table-hover
@@ -10,7 +51,6 @@ block content
       th(scope='col')
         input#selecthead(type='checkbox', name='shead')  
         button#btninstall.btn.btn-xs.btn-default(data-whatever='ALL', disabled) Install
-        //button#btninstall.btn.btn-xs.btn-default(data-toggle='modal', data-target='#installerModal', disabled) Install
       th(scope='col') Agent ID
       th(scope='col') ホスト名
       th(scope='col') 稼働状態
@@ -20,54 +60,19 @@ block content
       th(scope='col') コメント
     tbody#bodyList
       each agent, i in agents
-        if agent.status=='Busy'
-          tr.bg-warning
-        else if agent.status == 'None'
-          tr.bg-danger
-        else if agent.status == 'Normal'
-          tr.bg-info
-        else 
-          tr
-        th(scope='row')= i+1 
-        if agent.status=='Busy' || agent.status=='Normal'
-          td: input.chkhost(type='checkbox',name='checkhost[]',value='#{agent.name}',disabled)
-        else
-          td: input.chkhost(type='checkbox',name='checkhost[]',value='#{agent.name}')
-        td= agent.name
-        td= agent.hostname
-        td 
-          if agent.status=='Busy'
-            button.btn.btn-xs.btn-warning(data-toggle='modal', data-target='#installerModal') ビジー  
-          else if agent.status == 'None'
-            button.btn.btn-xs.btn-danger(data-toggle='modal', data-target='#installerModal', data-whatever='Agent003') 未インストール  
-          else if agent.status == 'Normal'
-            button.btn.btn-xs.btn-success(data-toggle='modal', data-target='#installerModal') 稼働中   
-          else
-            button.btn.btn-xs.btn-default(data-toggle='modal', data-target='#installerModal', data-whatever='Agent002') 未知  
-         td            
-           if agent.status=='Busy' || agent.status=='Normal'
-             button.btn.btn-default.btn-xs(aria-label='Left Align')
-               span.glyphicon.glyphicon-list-alt(aria-hidden='true')  
-               a(href='/opllog/agent01')  ログ 
-           else
-             button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
-               span.glyphicon.glyphicon-list-alt(aria-hidden='true') ログ 
-         td 
-           if agent.status=='Busy' || agent.status=='Normal'
-             button.btn.btn-default.btn-xs(aria-label='Left Align')
-               span.glyphicon.glyphicon-tasks(aria-hidden='true') 
-               span  状態 
-               if agent.notifysum > 0
-                 span.badge= agent.notifysum              
-           else
-              button.btn.btn-default.btn-xs.disabled(aria-label='Left Align')
-               span.glyphicon.glyphicon-tasks(aria-hidden='true')
-               span  状態 
-         td
-           button.btn.btn-default.btn-xs(aria-label='Left Align')
-             span.glyphicon.glyphicon-transfer(aria-hidden='true')
-             a(href='/sendlog/agent01')  履歴 
-         td
+        case agent.status
+          when 'Busy'
+            tr.bg-warning
+              +outputrow(agent, i)
+          when 'Normal'
+            tr.bg-info
+              +outputrow(agent, i)
+          when 'None'
+            tr.bg-danger
+              +outputrow(agent, i)
+          default
+            tr
+              +outputrow(agent, i)
   include installdialog.jade
   script.
     $(function() {

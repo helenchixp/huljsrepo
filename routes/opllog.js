@@ -68,6 +68,7 @@ var showlogs = function(req, res) {
                     title : '操作ログ', 
                     agentid : req.params.agentid,
                     searchurl : URL,
+                    loginuser : req.session.user,
                     logs : rows
               });
   }); 

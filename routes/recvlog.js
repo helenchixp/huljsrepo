@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
     res.render(URL, { 
                  title : '集信履歴', 
                  searchurl : URL,
+                 loginuser : req.session.user,  
                  logs : rows
                });
   });

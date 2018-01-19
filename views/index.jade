@@ -4,6 +4,8 @@ block content
   h1= title
   p Welcome to #{title}
   hr
-  form(method='POST' action='./')
-    input(type='text', name='name', value='')
-    input(type='submit', value='submit')
+  form(method='POST',action='./',data-toggle='validator',role='form')
+    .form-group
+      input.form-control(type='text', name='name', value='',data-minlength='4')
+      .help-block.with-errors 
+      button.btn.btn-primary(type='submit') submit

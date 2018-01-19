@@ -15,12 +15,13 @@ router.all('/*', function(req, res, next) {
 */
 
 /* GET home page. */
-router.get('/',utility.loginCheck, function(req, res, next) {
+router.get('/', utility.loginCheck, function(req, res, next) {
   collection('agent').find({}, function(docs) {
      res.render(URL, {
                 title: 'エージェント一覧',
                 searchurl: URL,
-                env: global.env,
+                //env: global.env,
+                loginuser : req.session.user,
                 agents: docs
             });
   });

@@ -1,0 +1,48 @@
+.modal.fade(id='adduser', role='dialog', aria-labelledby='addUserLabel', data-backdrop='static')
+  .modal-dialog(role='document')
+    form(method='post', action='/adduser', data-toggle='validator',role='form')
+      .modal-content
+        .modal-header
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+          h3.modal-title#addUserLabel ユーザ追加
+        .modal-body       
+          .alert.alert-danger(role='alert', hidden)
+          .row
+            .form-group
+              label#lbname.control-label.col-sm-4(for='username') ユーザー名
+              .col-sm-8
+                input.form-control(type="text",name="username",placeholder="ユーザ名",value='',required )
+                input(type='hidden', name='hideusername')
+                .help-block.with-errors
+          .row
+            .form-group
+              label.control-label.col-sm-4(for='password') パスワード
+              .col-sm-8
+                input.form-control#txtpassword(type="password", name='password', placeholder="パスワード", data-minlength='3', required)
+                .help-block.with-errors 
+          .row
+            .form-group
+              label.control-label.col-sm-4(for='password2') パスワード再入力
+              .col-sm-8
+                input.form-control(type="password", name='password2', placeholder="パスワード再入力",data-match='#txtpassword', data-match-error='パスワード不一致' ,required)
+                .help-block.with-errors 
+  
+        .modal-footer
+          .form-group
+            button.btn.btn-default(type='button',data-dismiss='modal') 閉じる
+            button.btn.btn-primary#btnadd(type='submit') 登録 
+
+script.
+  $(function() {
+    $('#adduser').on('show.bs.modal', function(event) {
+      var txtusername = $(this).find('input:text[name="username"]');
+      var hidusername = $(this).find('input:hidden[name="hideusername"]');
+      var whatever = $(event.relatedTarget).data('whatever');
+      if(whatever) {
+        txtusername.val(whatever);
+        hidusername.val(whatever);
+        txtusername.prop('readonly',true); 
+      }
+    });
+  }); 

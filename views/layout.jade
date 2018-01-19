@@ -5,6 +5,8 @@ html
     link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/jquery/dist/jquery.min.js')
+    //script(src='/bootstrap/dist/js/bootstrap.min.js')
+    //script(src='/bootstrap-validator/dist/validator.min.js')
   body
     .navbar.navbar-inverse.navbar-fixed-top
       .container-fluid
@@ -18,9 +20,7 @@ html
           ul.nav.navbar-nav
             li
               a(href='/list') スタートページ
-            if agentid==null
-              li.dropdown(style='display:none') 
-            else
+            if (agentid && loginuser)
               li.dropdown
                 a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') #{agentid} 状況照会 
                   span.caret
@@ -28,21 +28,22 @@ html
                   li: a(href='/sendlog/#{agentid}') 配信履歴
                   li: a(href='/sendlog/#{agentid}') 配信状況
                   li: a(href='/opllog/#{agentid}') 操作ログ 
-            li.dropdown
-              a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 集信状況照会 
-                span.caret
-              ul.dropdown-menu
-                li: a(href='/recvlog') 集信履歴
-                li: a(href='/recvlog') 集信状況
-            li
-              a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 要求発行(仮 不要) 
-                span.caret
-              ul.dropdown-menu
-                li: a(href='#myModal' data-toggle='modal' data-target='#myModal') 要求発行
-                li: a(href='/upload') アップロード 
-            li
-              a(href='/login') Login         
-          if env.loginUser
+            if loginuser
+              li.dropdown
+                a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 集信状況照会 
+                  span.caret
+                ul.dropdown-menu
+                  li: a(href='/recvlog') 集信履歴
+                  li: a(href='/recvlog') 集信状況
+           // li
+           //   a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 要求発行(仮 不要) 
+           //     span.caret
+           //   ul.dropdown-menu
+           //     li: a(href='#myModal' data-toggle='modal' data-target='#myModal') 要求発行
+           //     li: a(href='/upload') アップロード 
+            //- li
+            //-  a(href='/login') Login         
+          if loginuser
             ul.nav.navbar-nav.navbar-right
               li.dropdown
                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false') 
@@ -50,23 +51,27 @@ html
                   span.glyphicon-class #{env.loginUser}
                   span.caret
                 ul.dropdown-menu 
-                  li: a(href='#')  #{env.loginUser} 
-                  li: a(href='logout') Logout
+                  li: a(href='#',data-toggle='modal', data-target='#adduser', data-whatever='#{env.loginUser}') パスワード変更
+                  if env.loginUser == 'admin'
+                    li: a(href='#', data-toggle='modal', data-target='#adduser') ユーザ追加 
+                  li: a(href='logout') ログアウト
     include modal.jade
+    include adduser.jade
     include navbar.jade
     .container-fluid.body-content
       .row.content
         //- todo: 
-        if loginuser!=null
-          .col-sm-2.sidenav
-            include navsideleft.jade
+        //- if loginuser!=null
+        //-   .col-sm-2.sidenav
+        //-     include navsideleft.jade
         .col-sm-10.text-left
           block content
       hr
       footer
         p #{message}
 
-  script(src='/bootstrap/dist/js/bootstrap.js')
+  script(src='/bootstrap/dist/js/bootstrap.min.js')
+  script(src='/bootstrap-validator/dist/validator.min.js')
   script.
     $(document).ready(function() {  /*
       $("#searchID").off("keyup", function(e){
