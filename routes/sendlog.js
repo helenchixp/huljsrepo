@@ -2,22 +2,28 @@ var express = require('express');
 var router = express.Router();
 var dbquery = require('./dbquery.js');
 var sendlog= dbquery('hulsndlog.db');
-//var sqlite3 = require('sqlite3').verbose();
+var url = require('url');
 const URL = 'sendlog';
 
 /* GET logs data. */
 var showlogs = function(req, res) {
+  var params = url.parse(req.url, true);
+  var pageid = parseInt(params.query.pageid) ? parseInt(params.query.pageid) : 0; 
   var sql = 'select id, hostname, startday, starttime, endday, endtime, ' +
             'returncode, refercode, filename_utf8, records, junction_type ' + 
             'from sendlog ' +
-            'order by endday desc, endtime desc'
-            ';';
-  var result = sendlog.query(sql, [], function(rows) {
-  res.render(URL, { 
+            'order by endday desc, endtime desc ' +
+            'limit 10 offset ' + pageid *10 + ';'; 
+  var sumsql = 'select count(*) from sendlog;';
+
+  var result = sendlog.getList(sumsql, sql, function(sum, rows) {
+             res.render(URL, { 
                     title : '配信履歴', 
                     agentid : req.params.agentid,
                     loginuser : req.session.user,  
                     searchurl : URL,
+                    loglen : sum,
+                    pageid : pageid,
                     logs : rows
                });
   });

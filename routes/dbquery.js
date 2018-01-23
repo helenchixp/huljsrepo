@@ -18,6 +18,43 @@ var dbquery = function(dbname) {
 
 
   return {
+    getList: function(sumsql, sql , callback) {
+      var db = dbconn();
+      db.serialize(function() { 
+        var sumprm = new Promise(function(resolve, reject) {
+          db.get(sumsql, function(err,res) {
+            if(err) reject(err);
+            console.log('           ' + res['count(*)']);
+            resolve(res['count(*)']);
+          });
+        }); 
+        sumprm.then(function(sum) {
+          db.all(sql, function(err,rows) {
+            if(err) throw err;
+            callback(sum, rows);
+          }); 
+        }).catch(function(err) {
+          console.log(err);
+          throw err;
+        }).then(function() {
+          db.close();
+        }) ; 
+
+        //callback(sum,rows);
+      });
+    },
+    serialize: function(next, isclose) {
+       var db = dbconn();
+       db.serialize(function() {
+
+         next(db);
+
+       });
+       console.log('isclose :' + isclose);
+       if(isclose)
+         db.close();
+    },
+
     query: function(sql, params , callback) {
       //var result = null;
       var db = dbconn();

@@ -39,11 +39,15 @@ block content
             td= log.junction_type
     nav(aria-label='Page navigation')
       ul.pagination
-        li: a(href='#' aria-label='Previous')
+        li: a(href='?pageid=#{pageid>0 ? pageid-1 : 0}' aria-label='Previous')
           span(aria-hidden='true') &laquo;
-        - for(var i=1; i<logs.length; i+=10) {
-          li: a(href='#')  #{parseInt(i/10)+1}
+        - for(var i=1; i<loglen; i+=10) {
+          li  
+            if parseInt(i/10)==pageid 
+              a(href='?pageid=#{parseInt(i/10)}'): strong #{parseInt(i/10)+1}
+            else
+              a(href='?pageid=#{parseInt(i/10)}')  #{parseInt(i/10)+1} 
         - }
-        li: a(href='#' aria-label='Next')
+        li: a(href='?pageid=#{parseInt(pageid*10)<=parseInt(loglen) ? pageid+1 : pageid }' aria-label='Next')
           span(aria-hidden='true') &raquo;
     
