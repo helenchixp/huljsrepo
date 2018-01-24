@@ -18,13 +18,23 @@ var dbquery = function(dbname) {
 
 
   return {
+    serializeRun: function(sqls, callback) {
+      if(sqls) {
+        db = dbconn();
+        db.serialize(function() {
+           sqls.forEach(function(val, index) {
+              db.run(val.sql, val.params);    
+           });  
+          console.log(' --serializeRun--FINISH------'); 
+        });
+      }   
+    },
     getList: function(sumsql, sql , callback) {
       var db = dbconn();
       db.serialize(function() { 
         var sumprm = new Promise(function(resolve, reject) {
           db.get(sumsql, function(err,res) {
             if(err) reject(err);
-            console.log('           ' + res['count(*)']);
             resolve(res['count(*)']);
           });
         }); 
@@ -38,6 +48,7 @@ var dbquery = function(dbname) {
           throw err;
         }).then(function() {
           db.close();
+          console.log('DB is closed;'); 
         }) ; 
 
         //callback(sum,rows);

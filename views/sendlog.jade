@@ -2,12 +2,66 @@ extends layout
 
 block content
   h2 #{title}
-  
-  div
+  script.
+    $(function() {
+      $('#hlogs').change(function() {
+        $('.cseqno').each(function() {
+           $(this).prop('checked', $('#hlogs').prop('checked'));
+        });
+        $('#btndelete').prop('disabled', !$('#hlogs').prop('checked'));
+      });
+
+      $('.cseqno').change(function() {
+        var len = $('.cseqno:checked').length;
+
+        if(len > 0) {
+           $('#hlogs').prop('checked', undefined);
+           $('#btndelete').prop('disabled', false);
+        } else {
+           $('#hlogs').prop('checked', false);
+           $('#btndelete').prop('disabled', true);
+        }        
+      });
+      $('#btndelete').click(function() {
+        
+        var form = $('#frmlist');
+        form.attr('action', $(this).data('action'));
+        
+        $('<input>').attr({
+          'type': 'hidden',
+          'name': 'action',
+          'value': 'DEL'
+        }).appendTo(form);
+        
+        form.submit();
+        
+        /*
+        var nos = [];
+        $('.cseqno').each(function() {
+           if($(this).prop('checked') )
+              nos.push($(this).val());
+        });
+        //alert($('.cseqno').val());
+        alert( nos );
+        */
+      });
+    });  
+  .btn-group(role='group', aria-label="...")
+    button.btn.btn-default 詳細
+    button.btn.btn-primary 検索 
+    button.btn.btn-success(data-action="/sendlogdetail") 更新
+    button.btn.btn-danger#btndelete(data-action=".", disabled) 削除
+  .btn-group(role='group', aria-label="...")
+    button.btn.btn-info CSV出力
+  .btn-group(role='group', aria-label="...")
+    button.btn.btn-primary 配信要求
+    button.btn.btn-warning ヘルプ
+  form#frmlist(action='.', method='post')
     table.table.table-hover
       thead
         tr
-          th(scope='col') #
+          th(scope='col') 
+            input#hlogs(type='checkbox', name='hlogs', value='#') 
           th(scope='col') ファイルID
           th(scope='col') ホスト名 
           th(scope='col') 開始日付
@@ -20,8 +74,10 @@ block content
           th(scope='col') 接続
       tbody#bodyList 
         each log, i in logs
-          tr(class=(log.returncode == '0') ? '' : 'bg-danger')               
-            th(scope='row')= (i+1) 
+          tr(class=(log.returncode == '0') ? '' : 'bg-danger')
+            th(scope='row')
+              input.cseqno(type='checkbox', name='clogs', value='#{log.seqno}')
+              span #{(pageid) *10+  (i+1)} 
             td= log.id
             td= log.hostname
             td= log.startday
