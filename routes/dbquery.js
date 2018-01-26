@@ -29,17 +29,20 @@ var dbquery = function(dbname) {
         });
       }   
     },
-    getList: function(sumsql, sql , callback) {
-      var db = dbconn();
-      db.serialize(function() { 
+    getList: function(sumsql, sql , params,  callback) {
+       console.log('_____________search params:__________ : ' ,  params);
+       console.log(' SQL:[' + sql + ']' );
+       console.log(' SUM SQL:[' + sumsql + ']' );
+       var db = dbconn();
+       db.serialize(function() {   
         var sumprm = new Promise(function(resolve, reject) {
-          db.get(sumsql, function(err,res) {
+          db.get(sumsql, params ,function(err,res) {
             if(err) reject(err);
             resolve(res['count(*)']);
           });
         }); 
         sumprm.then(function(sum) {
-          db.all(sql, function(err,rows) {
+          db.all(sql, params ,function(err,rows) {
             if(err) throw err;
             callback(sum, rows);
           }); 

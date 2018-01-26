@@ -1,0 +1,52 @@
+.modal.fade(id='searchlog', role='dialog', aria-labelledby='searchlogLabel', data-backdrop='static')
+  .modal-dialog(role='document')
+    form#frmsearch(method='post', action='/sendlog', data-toggle='validator',role='form')
+      .modal-content
+        .modal-header
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+          h3.modal-title#searchlogLabel 履歴検索
+        .modal-body       
+          .alert.alert-danger(role='alert', hidden)
+          .row
+            .form-group
+              label#lbsearchid.control-label.col-sm-4(for='searchid') File ID
+              .col-sm-8
+                input.form-control(type='search',name='searchid',placeholder='File ID',list='sendids',autocomplete='off', required) 
+                datalist(id='sendids')
+                  option(value='TODO:')
+                  option(value='LOOP')
+                  option(value='A')
+                .help-block.with-errors
+          .row
+            .form-group
+              label.control-label.col-sm-4(for='hostname') Host Name
+              .col-sm-8
+                input.form-control(type="text", name='hostname', placeholder="Host Name", data-maxlength='64')
+                .help-block.with-errors 
+        .modal-footer
+          .form-group
+            button.btn.btn-default(type='button',data-dismiss='modal') 閉じる
+            button.btn.btn-primary#btnsearch(type='submit') 検索 
+            input(type='hidden', name='action', value='SEARCH')
+script.
+  $(function() {
+    $('#adduser').on('show.bs.modal', function(event) {
+      /*
+      var txtusername = $(this).find('input:text[name="username"]');
+      var hidusername = $(this).find('input:hidden[name="hideusername"]');
+      var whatever = $(event.relatedTarget).data('whatever');
+      if(whatever) {
+        txtusername.val(whatever);
+        hidusername.val(whatever);
+        txtusername.prop('readonly',true); 
+      }
+      */
+    });
+    $('#frmsearch').validator().on('submit', function(e) {
+      if(e.isDefaultPrevented()) {
+      } else {
+      } 
+    });
+    
+  }); 

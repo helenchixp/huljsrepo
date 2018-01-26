@@ -8,19 +8,24 @@ const URL = 'sendlog';
 var agentid;
 
 /* GET logs data. */
-var showlogs = function(req, res) {
+var showlogs = function(req, res, conditions) {
   var params = url.parse(req.url, true);
   var pageid = parseInt(params.query.pageid) ? parseInt(params.query.pageid) : 0; 
   var sql = 'select seqno, id, hostname, startday, starttime, endday, endtime, ' +
             'returncode, refercode, filename_utf8, records, junction_type ' + 
             'from sendlog ' +
+            'where id like $fileid ' +
+            'and hostname like $hostname ' +
             'order by endday desc, endtime desc ' +
             'limit 10 offset ' + pageid *10 + ';'; 
-  var sumsql = 'select count(*) from sendlog;';
+  var sumsql = 'select count(*) from sendlog where id like $fileid ' +
+               'and hostname like $hostname;';
   
-    
+  if(!conditions) {
+    conditions = { $fileid: '%%', $hostname: '%%'};
+  }
 
-  var result = sendlog.getList(sumsql, sql, function(sum, rows) {
+  var result = sendlog.getList(sumsql, sql, conditions, function(sum, rows) {
              res.render(URL, { 
                     title : '配信履歴', 
                     agentid : agentid,
@@ -75,6 +80,8 @@ router.get('/:agentid', function(req, res, next) {
    showlogs(req, res);
 });
 router.post('/', function(req, res, next) {
+   
+
   if(req.body.action === 'DEL') {
 
     console.log(' ..... ' + req.body.action+ ' .... ' + req.body.clogs);
@@ -89,9 +96,18 @@ router.post('/', function(req, res, next) {
     }).catch(function(err) {
       throw err;
     });
+  }
+  else if(req.body.action === 'SEARCH') {
+    var conds = { 
+            $fileid : '%' + req.body.searchid + '%',
+            $hostname : '%' + req.body.hostname + '%'
+    }; 
+    showlogs(req, res, conds);        
+    console.log(' ..... ' + req.body.action + ' ... ' + req.body.searchid); 
   } 
   else {
     showlogs(req,res);
+    console.log(' ..... ' + req.body.action + ' ... ' + req.body.searchid); 
   }
 });
 

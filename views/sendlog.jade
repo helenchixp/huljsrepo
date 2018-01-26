@@ -2,6 +2,7 @@ extends layout
 
 block content
   h2 #{title}
+  include searchlogdialog.jade
   script.
     $(function() {
       $('#hlogs').change(function() {
@@ -45,11 +46,20 @@ block content
         alert( nos );
         */
       });
+      /*
+      $('#btnsearch').click(function() {
+
+      });
+
+      $('#btnrefresh').click(function() {
+        location.href=$(this).data('action'); 
+      });
+      */  
     });  
   .btn-group(role='group', aria-label="...")
     button.btn.btn-default 詳細
-    button.btn.btn-primary 検索 
-    button.btn.btn-success(data-action="/sendlogdetail") 更新
+    button.btn.btn-primary#btnsearch(data-toggle='modal', data-target='#searchlog',data-whatever='#{searchURL}') 検索 
+    button.btn.btn-success#btnrefresh(onclick='location.href="."') 更新
     button.btn.btn-danger#btndelete(data-action=".", disabled) 削除
   .btn-group(role='group', aria-label="...")
     button.btn.btn-info CSV出力
