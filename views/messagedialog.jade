@@ -1,0 +1,59 @@
+.modal.fade(id='messageModal' role='dialog' aria-labelledby='mtitle')
+  .modal-dialog(role='document')
+    form#frmmsg(method='post', action='/installer')
+      .modal-content
+        .modal-header
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+          h3.modal-title#mtitle 
+        .modal-body        
+          h4 
+            strong お知らせ
+           .alert.alert-warning(role='alert')
+             strong Warning!
+             p
+             p#message  のインストールが完了していません。 
+        .modal-footer
+          button.btn.btn-default(type='button',data-dismiss='modal') Cancel
+          button#btnok.btn.btn-primary(type='button',data-dismiss='modal', data-text='OK') OK
+ 
+script(type='text/javascript').
+  $(function() {
+    $('#messageModal').on('show.bs.modal', function(event) {
+      var title = $(event.relatedTarget).data('title');
+      var message = $(event.relatedTarget).data('message'); 
+      var action = $(event.relatedTarget).data('action');
+      $('#mtitle').text(title);
+      $('#message').text(message);
+      /*
+      $('#frmmsg').attr('action', action);
+     
+      $('#frmmsg').append( 
+      
+      $('<input>').attr({
+        'type': 'hidden', 
+        'name': 'action',
+        'value': 'DEL'
+      }));
+      */
+    });
+    
+    $('#btnok').click(function() {
+      var hid = $('<input>').attr({
+        'type': 'hidden',
+        'name': 'action',
+        'value': 'DEL'
+      });
+      $('#frmlist').append(hid);
+      $('#frmlist').submit();
+    });
+    
+    $('#messageModal').on('hidden.bs.modal', function(event) {
+       /* 
+       var button = $(event.relatedTarget);
+       console.log(button);
+       console.log('......' + (button ? button.data('text') : 'unknown...'));
+       */
+    });
+
+  });

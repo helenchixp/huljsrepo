@@ -48,7 +48,9 @@ var deletelogs = function(seqnos) {
   var delsqljob = 'delete from sendjoblog where seqno = $seqno';
   var sqls = [];
 
-  seqnos.forEach(function(val, index) {
+  console.log(Array.isArray(seqnos) + ' seqnos.count =' +  '  ' + (seqnos.length ));
+
+  var sqlsyntax = function(val, index) {
     sqls.push( {
       sql : delsql,
       params : { $seqno : val }
@@ -61,10 +63,18 @@ var deletelogs = function(seqnos) {
       sql : delsqljob,
       params : { $seqno : val }
     });
-  });
+    
+  };
 
-  console.log(' ....... ' + sqls.count);
-
+  if(Array.isArray(seqnos)) {
+    seqnos.forEach( function (val, index ) {
+      console.log(val + '   ' + index); 
+      sqlsyntax(val, index); 
+    });
+  } else {
+    sqlsyntax(seqnos,0);
+  }
+  console.log(sqls);
   sendlog.serializeRun(sqls);  
   
 };
@@ -84,7 +94,6 @@ router.post('/', function(req, res, next) {
 
   if(req.body.action === 'DEL') {
 
-    console.log(' ..... ' + req.body.action+ ' .... ' + req.body.clogs);
     var delprm = new Promise( function(resolve, reject) { 
        deletelogs(req.body.clogs);
        resolve(true);

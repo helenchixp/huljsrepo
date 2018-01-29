@@ -3,6 +3,7 @@ extends layout
 block content
   h2 #{title}
   include searchlogdialog.jade
+  include messagedialog.jade
   script.
     $(function() {
       $('#hlogs').change(function() {
@@ -23,6 +24,7 @@ block content
            $('#btndelete').prop('disabled', true);
         }        
       });
+      /*
       $('#btndelete').click(function() {
         
         var form = $('#frmlist');
@@ -36,16 +38,8 @@ block content
         
         form.submit();
         
-        /*
-        var nos = [];
-        $('.cseqno').each(function() {
-           if($(this).prop('checked') )
-              nos.push($(this).val());
-        });
-        //alert($('.cseqno').val());
-        alert( nos );
-        */
       });
+      */
       /*
       $('#btnsearch').click(function() {
 
@@ -60,11 +54,11 @@ block content
     button.btn.btn-default 詳細
     button.btn.btn-primary#btnsearch(data-toggle='modal', data-target='#searchlog',data-whatever='#{searchURL}') 検索 
     button.btn.btn-success#btnrefresh(onclick='location.href="."') 更新
-    button.btn.btn-danger#btndelete(data-action=".", disabled) 削除
+    button.btn.btn-danger#btndelete(data-toggle='modal', data-target='#messageModal', data-action=".",data-title='削除確認', data-message='選択された履歴を削除してもよろしいでしょうか？',  disabled) 削除
   .btn-group(role='group', aria-label="...")
     button.btn.btn-info CSV出力
   .btn-group(role='group', aria-label="...")
-    button.btn.btn-primary 配信要求
+    button.btn.btn-primary(data-toggle='modal', data-target='#myModal') 配信要求
     button.btn.btn-warning ヘルプ
   form#frmlist(action='.', method='post')
     table.table.table-hover
@@ -102,7 +96,7 @@ block content
       ul.pagination
         li: a(href='?pageid=#{pageid>0 ? pageid-1 : 0}' aria-label='Previous')
           span(aria-hidden='true') &laquo;
-        - for(var i=1; i<loglen; i+=10) {
+        - for(var i=1; i<=loglen; i+=10) {
           if parseInt(i/10)==pageid
             li: a(href='?pageid=#{parseInt(i/10)}'): strong #{parseInt(i/10) + 1}
           else
