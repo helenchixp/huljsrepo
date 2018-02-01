@@ -20,6 +20,7 @@ var routes = {
   utlsend : require('./routes/utlsend'),
   adduser : require('./routes/adduser'),
   logout : require('./routes/logout'),
+  pyimages: require('./routes/pyimages'),
   // Test Page
   users : require('./routes/users')
 };
@@ -87,6 +88,7 @@ app.use('/opllog',routes.opllog);
 app.use('/utlsend', routes.utlsend);
 app.use('/adduser', routes.adduser);
 app.use('/logout', routes.logout);
+app.use('/pyimages', routes.pyimages);
 
 //Test Page
 app.use('/users',routes.users);

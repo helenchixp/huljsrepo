@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Uploaded files list
+  p Welcome to #{title}
+
+  .row
+    .col-md-4
+      .btn-group-vertical(role='group', aria-label='...')
+        for file, i in files
+          button.btn.btn-default(data-filename='#{file}') No.#{i + ' ' + file}
+    .col-md-8
+      img#imgpy(src='./images/foo.png')
+
+  script(type='text/javascript').
+    $(function() {
+
+      $('.btn').click(function() {
+         var filename=$(this).data('filename');
+         $('#imgpy').prop('src', './images/'+filename);
+      });
+
+    });
+
