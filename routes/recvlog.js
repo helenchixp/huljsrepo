@@ -16,7 +16,7 @@ var showlogs = function(req, res, next) {
             'limit 10 offset ' + pageid * 10 + ';'; 
   var sumsql = 'select count(*) from recvlog;';
     
-   recvlog.getList(sumsql, sql, function(sum, rows)  {
+  recvlog.getList(sumsql, sql, {}, function(sum, rows)  {
        res.render(URL, { 
                  title : '集信履歴', 
                  searchurl : URL,

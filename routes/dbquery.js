@@ -1,7 +1,7 @@
 var sqlite3 = require('sqlite3').verbose();
 
 var dbquery = function(dbname) {
-  var _dbname = '/home/guest01/hulft/hulft840/etc/' + dbname;
+  var _dbname = '/home/guest01/hulft/hulft840js/etc/' + dbname;
 
   var dbconn = function() {
     console.log('DBName: [' + _dbname + ']');
