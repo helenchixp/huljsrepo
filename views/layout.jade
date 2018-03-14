@@ -5,8 +5,6 @@ html
     link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/jquery/dist/jquery.min.js')
-    //script(src='/bootstrap/dist/js/bootstrap.min.js')
-    //script(src='/bootstrap-validator/dist/validator.min.js')
   body
     .navbar.navbar-inverse.navbar-fixed-top
       .container-fluid
@@ -36,13 +34,11 @@ html
                   li: a(href='/recvlog') 集信履歴
                   li: a(href='/recvlog') 集信状況
             li
-              a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 要求発行(仮 不要) 
+              a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') 要求発行 
                 span.caret
               ul.dropdown-menu
                 li: a(href='#myModal' data-toggle='modal' data-target='#myModal') 要求発行
                 li: a(href='/upload') アップロード 
-            //- li
-            //-  a(href='/login') Login         
           if loginuser
             ul.nav.navbar-nav.navbar-right
               li.dropdown
@@ -52,8 +48,8 @@ html
                   span.caret
                 ul.dropdown-menu 
                   li: a(href='#',data-toggle='modal', data-target='#adduser', data-whatever='#{env.loginUser}') パスワード変更
-                  if env.loginUser == 'admin'
-                    li: a(href='#', data-toggle='modal', data-target='#adduser') ユーザ追加 
+                  //if env.loginUser == 'admin'
+                  //  li: a(href='#', data-toggle='modal', data-target='#adduser') ユーザ追加 
                   li: a(href='logout') ログアウト
     include modal.jade
     include adduser.jade

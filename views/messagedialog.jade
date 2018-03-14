@@ -25,17 +25,6 @@ script(type='text/javascript').
       var action = $(event.relatedTarget).data('action');
       $('#mtitle').text(title);
       $('#message').text(message);
-      /*
-      $('#frmmsg').attr('action', action);
-     
-      $('#frmmsg').append( 
-      
-      $('<input>').attr({
-        'type': 'hidden', 
-        'name': 'action',
-        'value': 'DEL'
-      }));
-      */
     });
     
     $('#btnok').click(function() {
@@ -50,9 +39,6 @@ script(type='text/javascript').
     
     $('#messageModal').on('hidden.bs.modal', function(event) {
        /* 
-       var button = $(event.relatedTarget);
-       console.log(button);
-       console.log('......' + (button ? button.data('text') : 'unknown...'));
        */
     });
 

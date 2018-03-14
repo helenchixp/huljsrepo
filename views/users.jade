@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  h2 #{title}
+  h3 #{message}
+  include messagedialog.jade
+  .btn-group(role='group', aria-label="...") 
+    button.btn.btn-default#btnadd(data-toggle='modal', data-target='#adduser', data-action='./users/detail') Add New User 
+    button.btn.btn-default#btndetail(data-toggle='modal', data-target='#adduser', data-action='./users/detail') Show this User 
+    button.btn.btn-danger#btndelete(data-toggle='modal', data-target='#messageModal', data-action="./users/del",data-title='Confirm', data-message='Do you want to delete this user?',  disabled) Delete
+  form#frmlist(action='./users/del', method='post')
+    table.table.table-hover 
+      thead
+        tr
+          th(scope='col')
+          th(scope='col')
+          th(scope='col') User Name
+          th(scope='col') Password
+      tbody#bodyList
+        each user, i in users
+          tr(class=(user.username=='admin') ? 'bg-danger':'')    
+            th(scrope='row')
+              if user.username=='admin'
+                input.uuid(type='checkbox', name='uuids', value='#{user._id}', disabled)
+              else
+                input.uuid(type='checkbox', name='uuids', value='#{user._id}')
+                input(type='hidden', value='#{user.username}', id='td_#{user._id}')
+            td= i
+            td= user.username
+            td= user.password
+
+  p Uses.
+  script.
+    $(function() {
+      $('.uuid').change(function() {
+          var len = $('.uuid:checked').length;
+
+          if(len>0) {
+            $('#btndelete').prop('disabled', false);
+            var firstval =  $('.uuid:checked').val();
+            var username = $('#td_'+firstval).val();
+            $('#btndetail').data('whatever', firstval);
+            $('#btndetail').data('username', username);
+          } else {
+            $('#btndelete').prop('disabled', true);
+            $('#btndetail').data('whatever', '');
+            $('#btndetail').data('username', '');
+          }
+      });
+        $('#btndetail').click(function() {
+           // $('#frmlist').prop('action', $(this).data('action'));
+        });
+        $('#btnadd').click(function() {
+
+        });
+
+    });

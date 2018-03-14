@@ -16,6 +16,9 @@ router.all('/*', function(req, res, next) {
 
 /* GET home page. */
 router.get('/', utility.loginCheck, function(req, res, next) {
+
+    console.log(' global.env = %s ', global.env);
+
   collection('agent').find({}, function(docs) {
      res.render(URL, {
                 title: 'エージェント一覧',

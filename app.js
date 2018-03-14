@@ -21,8 +21,9 @@ var routes = {
   adduser : require('./routes/adduser'),
   logout : require('./routes/logout'),
   pyimages: require('./routes/pyimages'),
+  users : require('./routes/users'),
   // Test Page
-  users : require('./routes/users')
+  templete : require('./routes/templete')
 };
 
 //connect to MongoDB
@@ -89,9 +90,10 @@ app.use('/utlsend', routes.utlsend);
 app.use('/adduser', routes.adduser);
 app.use('/logout', routes.logout);
 app.use('/pyimages', routes.pyimages);
+app.use('/users',routes.users);
 
 //Test Page
-app.use('/users',routes.users);
+app.use('/templete',routes.templete);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

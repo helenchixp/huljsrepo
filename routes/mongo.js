@@ -26,22 +26,52 @@ var mongoconn = function(colname, params, next) {
 
 var collection = function(name) {
    
-  var colname = name;
+    var colname = name;
 
-  return {
-     find: function(params, callback) {
-        mongoconn(colname, params, function(db) {
-             db.collection(name).find(params).toArray(function(err, result) { 
-                console.log('  .......  colname : '+name + '  docs count:'  + result.length );
-                callback(result);
-                db.close();
-             } );
-        });
-     }
-  };
-
-
-}
+    return {
+        find: function(params, callback) {
+            mongoconn(colname, params, function(db) {
+                db.collection(name).find(params).toArray(function(err, result) { 
+                    console.log('  .......  colname : '+name + '  docs count:'  + result.length );
+                    callback(result);
+                    db.close();
+                } );
+            });
+        },
+        deleteMany: function(params, callback) {
+            mongoconn(colname, params, function(db) {
+                db.collection(name).deleteMany(params, function(err, result) {
+                    console.log(' collection Name : %s  Delete docs count: %d', name, result.length);
+                    callback(err, result);
+                    db.close();
+                });
+            });
+        },
+        findOneAndUpdate: function(findparams, updatedata ,callback) {
+            mongoconn(colname, findparams, function(db) {
+                db.collection(name).findOneAndUpdate(
+                        findparams,
+                        updatedata,
+                        {},
+                        function(err, result) {
+                            console.log('find :' + findparams + ' Update:' + updatedata);
+                            callback(err, result);
+                            db.close();
+                        }
+                );
+            });
+        },
+        insertOne: function(params, callback) {
+             mongoconn(colname, params, function(db) { 
+                 db.collection(name).insertOne(params, function(err, result) {
+                     console.log('insert :' + params + ' ____' );
+                     callback(err, result);
+                     db.close();
+                 });
+             });
+        }
+    }
+};
 
 module.exports = collection;
 

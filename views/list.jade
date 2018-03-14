@@ -39,7 +39,10 @@ mixin outputrow(agent, i)
   td
     button.btn.btn-default.btn-xs(aria-label='Left Align')
       span.glyphicon.glyphicon-transfer(aria-hidden='true')
-      a(href='/sendlog/agent01')  履歴 
+      if agent.status=='Busy' || agent.status=='Normal'
+        a(href='/sendlog/agent01')  履歴 
+      else
+        span 履歴 
   td &nbsp;
 block content
   h2 #{title}
