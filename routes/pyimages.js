@@ -5,7 +5,8 @@ var fs = require('fs');
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  fs.readdir('./public/images', function(err, files) {
+  fs.readdir('./uploads', function(err, files) {
+  //fs.readdir('./public/images', function(err, files) {
 
   if(err) throw err;
 
@@ -13,13 +14,10 @@ router.get('/', function(req, res, next) {
   files.forEach(function(file) {
 
      fileList.push( file);
-    // return fs.statSync(file).isFile() && /.*\.*$/.test(file);  
-     // filter : 
-     // return fs.statSync(file).isFile() && /.*\.csv$/.test(file); 
   
   });
-
-  res.render('pyimages', { title: 'Python Image!', files: fileList });
+      
+  res.render('pyimages', { title: 'Only Show the Image!', files: fileList });
 
   });
 });

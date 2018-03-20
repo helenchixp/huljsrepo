@@ -42,7 +42,7 @@ script.
       var hid_id= $(this).find('input:hidden[name="hide_id"]');
       var whatever = $(event.relatedTarget).data('whatever');
       var username = $(event.relatedTarget).data('username');
-      if(whatever) {
+      if(username) {
         txtusername.val(username);
         hidusername.val(username);
         hid_id.val(whatever);

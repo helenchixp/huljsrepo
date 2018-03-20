@@ -47,19 +47,15 @@ html
                   span.glyphicon-class #{env.loginUser}
                   span.caret
                 ul.dropdown-menu 
-                  li: a(href='#',data-toggle='modal', data-target='#adduser', data-whatever='#{env.loginUser}') パスワード変更
-                  //if env.loginUser == 'admin'
-                  //  li: a(href='#', data-toggle='modal', data-target='#adduser') ユーザ追加 
+                  li: a(href='#',data-toggle='modal', data-target='#adduser', data-username='#{env.loginUser}') パスワード変更
+                  if env.loginUser == 'admin'
+                    li: a(href='/users') ユーザ一覧 
                   li: a(href='logout') ログアウト
     include modal.jade
     include adduser.jade
     include navbar.jade
     .container-fluid.body-content
       .row.content
-        //- todo: 
-        //- if loginuser!=null
-        //-   .col-sm-2.sidenav
-        //-     include navsideleft.jade
         .col-sm-10.text-left
           block content
       hr
@@ -68,14 +64,9 @@ html
 
   script(src='/bootstrap/dist/js/bootstrap.min.js')
   script(src='/bootstrap-validator/dist/validator.min.js')
+  //- script(src='/d3/build/d3.min.js') 
   script.
-    $(document).ready(function() {  /*
-      $("#searchID").off("keyup", function(e){
-        var value = $(this).val();
-        if( value.match(/[^A-Z0-9\s.-]+/)) {
-           alert(e.key);
-        }
-      });*/
+    $(document).ready(function() {  
       $("#searchID").on("keyup", function() {
         var value = $(this).val().toUpperCase();
         $("#bodyList tr").filter(function() {

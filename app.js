@@ -22,6 +22,7 @@ var routes = {
   logout : require('./routes/logout'),
   pyimages: require('./routes/pyimages'),
   users : require('./routes/users'),
+  pallet : require('./routes/pallet'),
   // Test Page
   templete : require('./routes/templete')
 };
@@ -77,6 +78,8 @@ else {
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
+// Custom public path
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use('/', routes.index);
 app.use('/upload', routes.upload);
@@ -91,6 +94,7 @@ app.use('/adduser', routes.adduser);
 app.use('/logout', routes.logout);
 app.use('/pyimages', routes.pyimages);
 app.use('/users',routes.users);
+app.use('/pallet',routes.pallet);
 
 //Test Page
 app.use('/templete',routes.templete);

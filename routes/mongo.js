@@ -64,7 +64,7 @@ var collection = function(name) {
         insertOne: function(params, callback) {
              mongoconn(colname, params, function(db) { 
                  db.collection(name).insertOne(params, function(err, result) {
-                     console.log('insert :' + params + ' ____' );
+                     console.log('insert :{' + params + '}  '  );
                      callback(err, result);
                      db.close();
                  });
@@ -76,32 +76,3 @@ var collection = function(name) {
 module.exports = collection;
 
 
-/*
-// Use connect method to connect to the Server
-MongoClient.connect(url, function(err, client) {
-   assert.equal(null, err);
-   console.log("Connected correctly to server");
-   db = client.db(dbName);
-  
-   find(db, function() {
-     client.close();
-   });
-});
-
-var find = function(db, callback) {
-   var collection = db.collection('agent');
-   var result = collection.find().toArray(err, docs);
-   console.log(result);
- 
-};
-
-module.exports = find;
-*/
-/*
-var collection = function(name) {
-  console.log('collection name:' + name + db.getCollectionNames());     
-  return db.collection(name);
-}
-
-module.exports = collection;
-*/
