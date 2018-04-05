@@ -30,3 +30,27 @@ a {
     height: auto;
   } 
 }
+.line_plan {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+.line_actual {
+  fill: none;
+  stroke: purple;
+  stroke-width: 1.5px;
+}
+.line_expect {
+  fill: none;
+  stroke: yellowgreen;
+  stroke-width: 1.5px;
+}
+svg {
+  margin : 30px;
+}
+.currentdate {
+  fill: none;
+  stroke: maroon;
+  stroke-width: 3px;
+}
+

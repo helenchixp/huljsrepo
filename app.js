@@ -23,6 +23,7 @@ var routes = {
   pyimages: require('./routes/pyimages'),
   users : require('./routes/users'),
   pallet : require('./routes/pallet'),
+  summary : require('./routes/summary'),
   // Test Page
   templete : require('./routes/templete')
 };
@@ -95,6 +96,7 @@ app.use('/logout', routes.logout);
 app.use('/pyimages', routes.pyimages);
 app.use('/users',routes.users);
 app.use('/pallet',routes.pallet);
+app.use('/summary',routes.summary);
 
 //Test Page
 app.use('/templete',routes.templete);
