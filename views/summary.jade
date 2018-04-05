@@ -1,0 +1,183 @@
+extends layout
+
+block content
+  script.
+    window.costs = [{"scheduleMonth":"201505","planValue":177562935,"actualValue":177562935,"expectValue":177562935},
+      {"scheduleMonth":"201506","planValue":172822525,"actualValue":174562212,"expectValue":170753174},  
+      {"scheduleMonth":"201507","planValue":167771684,"actualValue":0,"expectValue":161634540},
+      {"scheduleMonth":"201508","planValue":146079571,"actualValue":0,"expectValue":136933752},
+      {"scheduleMonth":"201509","planValue":120093486,"actualValue":0,"expectValue":127413097},
+      {"scheduleMonth":"201510","planValue":99493777,"actualValue":0,"expectValue":117819839},
+      {"scheduleMonth":"201511","planValue":92538894,"actualValue":0,"expectValue":107262229},
+      {"scheduleMonth":"201512","planValue":68457483,"actualValue":0,"expectValue":64533698},
+      {"scheduleMonth":"201601","planValue":61788283,"actualValue":0,"expectValue":52653477},
+      {"scheduleMonth":"201602","planValue":55708772,"actualValue":0,"expectValue":40304065},
+      {"scheduleMonth":"201603","planValue":14572133,"actualValue":0,"expectValue":28777796},
+      {"scheduleMonth":"201604","planValue":196125,"actualValue":0,"expectValue":-3596602},
+      {"scheduleMonth":"201605","planValue":0,"actualValue":0,"expectValue":-12600794},
+      {"scheduleMonth":"201606","planValue":0,"actualValue":0,"expectValue":-13355352}];
+    window.schedulePlans = [{"startPlan":"20150503","endPlan":"20150630","endNewPlan":"20150606","endExpectation":"20150711","processid":2},
+      {"startPlan":"20150701","endPlan":"20150830","endNewPlan":"20150813","endExpectation":"20150910","processid":3},
+      {"startPlan":"20150901","endPlan":"20151030","endNewPlan":"20151020","endExpectation":"20151115","processid":4},
+      {"startPlan":"20151101","endPlan":"20151230","endNewPlan":"20160129","endExpectation":"20160115","processid":5},
+      {"startPlan":"20160229","endPlan":"20160104","endNewPlan":"20160305","endExpectation":"20160316","processid":6}];
+    window.project = {"projectid":1,"projectName":"PE-XXX-XXX","summary":"HULFT Manager Ver.99.99.88","startMonth":"201505","endMonth":"201606","cost":123.0,"status":"SOSO"};
+    window.processMaster = [{"processid":0,"processName":"\u672A\u958B\u59CB","beforeid":0},    
+      {"processid":1,"processName":"\u8981\u4EF6\u5B9A\u7FA9","beforeid":0},
+      {"processid":2,"processName":"UI","beforeid":1},
+      {"processid":3,"processName":"PG\/PT","beforeid":2},
+      {"processid":4,"processName":"IT","beforeid":3},
+      {"processid":5,"processName":"ST","beforeid":4},
+      {"processid":6,"processName":"\u691C\u67FB","beforeid":5},
+      {"processid":7,"processName":"\u5B8C\u4E86","beforeid":6}];
+  h2 #{title}
+  h3 #{message}
+  script(src='/d3/build/d3.min.js')
+  script(src='/javascripts/diagram.js')
+  p Use this templete!!!!!!!.
+  .input-group.mb-3
+    .input-group-prepend
+      span.input-group-addon(for="currentmonth") 計画年月
+      select.custom-select#currentmonth
+        -for(var i=0; i<=14; i++) {
+          -var d = new Date('2015',5 + i,'01')
+          -var ym = d.getFullYear() + ('00' + (d.getMonth() +1)).slice(-2) 
+          option #{ym}  
+        -}      
+  .input-group.mb-3
+    .form-check.form-check-inline
+      input.form-check-input(type="checkbox" value="_plan" id="chkplanline" checked)
+      span.form-check-label(for chkplanline) 計画
+    .form-check.form-check-inline
+      input.form-check-input(type="checkbox" value="_actual" id="chkactualline" checked)
+      span.form-check-label(for chkactualine) 実績
+    .form-check.form-check-inline
+      input.form-check-input(type="checkbox" value="_expect" id="chkexpectline" checked)
+      span.form-check-label(for chkexpectline) 見込み
+    .form-check.form-check-inline
+      input.form-check-input(type="checkbox" value="showvalue" id="chkshowvalue" checked)
+      span.form-check-label(for chkshowvalue) 線表示
+    .form-check.form-check-inline
+      input.form-check-input(type="checkbox" value="showdot" id="chkshowdot" checked)
+      span.form-check-label(for chkshwodot) 点表示
+
+    svg#svgproject
+    
+    script.
+      var svg = d3.selectAll('#svgproject');      
+      var graph = new PolylineGraph(svg, costs);
+      graph.initGraph();
+      //計画年月のSelectboxを変わった場合
+      var selectmonth = d3.selectAll('#currentmonth');
+
+      graph._header.forEach(function(head) {
+            selectmonth.append('option')
+                .attr('value', head)
+                .text(head);
+      });
+      selectmonth.on('change', function(element) {
+          var cmonth = selectmonth.property('value');
+           graph.drawcurrentline(cmonth);
+      }); 
+
+      //表示用のチェックボックスを選択される場合
+      var checkshow = d3.selectAll('.form-check-input');
+      checkshow.on('change', function() {
+          var showgf = d3.select(this);
+
+          var isshowlabel = true,
+              isshowdot = true;
+
+          var showdotline = function(showlabel, showdot) {
+              
+                checkshow.each(function(d) {
+                      
+                      var cb = d3.select(this);
+                      
+                      switch(cb.property("value")) {
+                          case '_plan':
+                          case '_actual':
+                          case '_expect':
+                          if(cb.property('checked'))
+                              graph.showhiddenlinear(cb.property('value'), cb.property('checked'), showlabel, showdot);
+                              break;
+                      }
+
+                });
+          };
+
+          checkshow.each(function(d) {
+              var cb = d3.select(this);
+              if(cb.property("value") === 'showvalue') isshowlabel = cb.property('checked');
+              else if(cb.property("value") === 'showdot') isshowdot = cb.property('checked');
+          });
+
+          switch(showgf.property("value")) {
+              case '_plan':
+              case '_actual':
+              case '_expect':
+                   graph.showhiddenlinear(showgf.property('value'), showgf.property('checked'), isshowlabel, isshowdot);
+                   break;
+              case 'showvalue':
+              case 'showdot':    
+                   showdotline(isshowlabel, isshowdot);
+                   break;
+          }
+
+      });
+      var plans = [],
+      actuals = [],
+      expects = [];
+
+      costs.forEach(function(data) { 
+          plans.push(data.planValue);
+          actuals.push(data.actualValue);
+          expects.push(data.expectValue);
+      });
+
+      graph.drawlinear(plans, "_plan");
+      graph.drawlinear(actuals, "_actual");
+      graph.drawlinear(expects, "_expect");
+
+      graph._height += 60;
+
+      graph.drawband(schedulePlans);
+      graph.drawband(schedulePlans, "startPlan", "endNewPlan", true);
+      graph.drawband(schedulePlans, "startPlan", "endExpectation");
+    script.
+      function SaveSchedule() {
+         for(var i = 0; i<schedulePlans.length; i++) {
+             var keys = Object.keys(schedulePlans[i]);
+             for(var n = 0; n < keys.length; n++) {   
+               for(var m = n; m < keys.length; m++) {
+                 var barid = '#' + keys[n] + '_' + keys[m] + schedulePlans[i].processid;
+                 var endvalue = $( barid  + "_right").data("enddate");
+                 if( endvalue ) {
+                    schedulePlans[i][keys[m]] = endvalue;
+                 }
+               }
+             }  
+         }
+
+         $.ajax({
+                 method:"put",
+                 url:"/summary/update",        
+                 data:JSON.stringify(schedulePlans), 
+                 contentType: 'application/json', 
+                 dataType: "json",           
+                 success: function(json_data) {   
+                    // 成功時の処理
+                    console.log(json_data);
+                }      
+         }).done(function(data) {
+             console.log('Json post!!!!!');
+             console.log(data);
+         }).fail(function(jqXHR, textStatus, errorThrown) {
+             console.log(jqXHR);
+             console.log(errorThrown);
+               console.log(textStatus);
+         });
+      }
+      
+    .input-group
+      button.btn.btn-lg(onclick="SaveSchedule()") Click - 計画変更を保存  
